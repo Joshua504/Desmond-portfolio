@@ -1,0 +1,52 @@
+@use "_variables.scss" as *;
+@use "_mixins.scss" as *;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	list-style: none;
+	text-decoration: none;
+}
+
+:root {
+	--background-color: linear-gradient(to right, #434343, #000000);
+	--text-color: #ffffff;
+	--text1-color: #121212;
+	--text2-color: #272221;
+	--text3-color: #cbd5e0;
+	--secondary-color: #ede9dd;
+	--border-color: #ffffff;
+}
+.light-mode {
+	--background-color: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+	--text-color: #121212;
+	--text2-color: #272221;
+	--text3-color: #1a365d;
+	--secondary-color: #272221;
+	--border-color: #000000;
+}
+
+body {
+	font-family: $font-secondary;
+	background-image: var(--background-color);
+	color: var(--text-color);
+	transition: background-color 0.3s, color 0.3s;
+
+	h1 {
+		color: var(--text3-color);
+	}
+
+	h3 {
+		color: $secondary-color-1;
+		font-size: 2.5rem;
+	}
+
+	main {
+		padding: 0 1.5rem;
+
+		@include mobile {
+			padding: 0 0.5rem;
+		}
+	}
+}
