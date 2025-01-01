@@ -5,7 +5,7 @@
 			<div class="mini-info__details">
 				<p class="details">
 					{{ temperature }}°C lagos {{ currentTime }} * +234-000-0000-000 *
-					<span class="email">anonx@gmail.com</span>
+					<span class="email">work@anonx.me</span>
 				</p>
 			</div>
 		</div>

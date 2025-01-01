@@ -23,10 +23,18 @@
 				:key="article.id"
 				class="article"
 			>
-				<router-link class="btn"
-					><p>view</p>
-					<img src="../assets/Images/arrowUpRight.svg" alt=""
-				/></router-link>
+				<div class="image-container">
+					<img :src="article.img" alt="" />
+				</div>
+				<div class="article_text">
+					<h3>{{ article.title }}</h3>
+					<div>
+						<a class="btn" :href="article.link">
+							<p>view</p>
+							<img src="../assets/Images/arrowUpRight.svg" alt="" />
+						</a>
+					</div>
+				</div>
 			</div>
 		</section>
 
@@ -51,31 +59,90 @@
 </template>
 
 <script setup>
+import cody from "../assets/Images/cody.png";
+import eliminate from "../assets/Images/eliminate.png";
+import noen from "../assets/Images/neon.jpg";
+import multi from "../assets/Images/multi.png";
+import serverless from "../assets/Images/serverless.png";
+import translator from "../assets/Images/translator.png";
+import understand from "../assets/Images/understanding.png";
+import weather from "../assets/Images/weather.png";
+import automate from "../assets/Images/automate.jpg";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ref, onMounted, computed } from "vue";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const image = ref([
+	cody,
+	eliminate,
+	noen,
+	multi,
+	serverless,
+	translator,
+	understand,
+	weather,
+	automate,
+]);
+
 const articles = ref([
-	{ id: 1, title: "article 1" },
-	{ id: 2, title: "article 2" },
-	{ id: 3, title: "article 3" },
-	{ id: 4, title: "article 4" },
-	{ id: 5, title: "article 5" },
-	{ id: 6, title: "article 6" },
-	{ id: 7, title: "article 7" },
-	{ id: 8, title: "article 8" },
-	{ id: 9, title: "article 9" },
-	{ id: 10, title: "article 10" },
-	{ id: 11, title: "article 11" },
-	{ id: 12, title: "article 12" },
-	{ id: 13, title: "article 13" },
-	{ id: 14, title: "article 14" },
-	{ id: 15, title: "article 15" },
-	{ id: 16, title: "article 16" },
-	{ id: 17, title: "article 17" },
-	{ id: 18, title: "article 18" },
+	{
+		id: 1,
+		link: "https://dev.to/hackmamba/faster-postgres-queries-with-cloudflare-hyperdrive-and-neon-4200",
+		img: image.value[2],
+		title: "Faster Postgres Queries with Cloudflare Hyperdrive and Neon ",
+	},
+	{
+		id: 2,
+		link: "https://www.twilio.com/en-us/blog/understanding-database-transactions-postgres-twilio",
+		img: image.value[6],
+		title: "Understanding Database Transactions with Postgres and Twilio",
+	},
+	{
+		id: 3,
+		link: "https://www.twilio.com/en-us/blog/build-translation-bot-twilio-whatsapp-aws-translate",
+		img: image.value[5],
+		title: "Build a Translation Bot using Twilio WhatsApp and AWS Translate",
+	},
+	{
+		id: 4,
+		link: "https://sourcegraph.com/blog/5-steps-to-automate-repetitive-tasks-in-software-development",
+		img: image.value[8],
+		title: "5 steps to automate repetitive tasks in software development",
+	},
+	{
+		id: 5,
+		link: "https://questdb.com/blog/visualizing-weather-kafka-grafana/",
+		img: image.value[7],
+		title:
+			"Weather data visualization and forecasting with QuestDB, Kafka and Grafana",
+	},
+	{
+		id: 6,
+		link: "https://www.twilio.com/en-us/blog/multi-factor-authentication-go-twilio-verify",
+		img: image.value[3],
+		title: "Multi-factor authentication in Go using Twilio Verify API",
+	},
+	{
+		id: 7,
+		link: "https://www.twilio.com/en-us/blog/running-twilio-serverless-functions-database-events",
+		img: image.value[4],
+		title: "Running Twilio Serverless Functions Using Database Events",
+	},
+	{
+		id: 8,
+		link: "https://dev.to/hackmamba/copilot-vs-cody-all-you-need-to-know-jdi",
+		img: image.value[0],
+		title: "Copilot vs. Cody: All you need to know ",
+	},
+	{
+		id: 9,
+		link: "https://www.coderabbit.ai/blog/5-code-review-anti-patterns-you-can-eliminate-with-ai",
+		img: image.value[1],
+		title: "5 Code Review Anti-Patterns You Can Eliminate with AI",
+	},
 ]);
 
 const itemsPerPage = 6;
@@ -153,10 +220,15 @@ onMounted(() => {
 
 .article-container {
 	margin: 5rem 0;
+	padding: 0 1.5rem;
+
+	@include mobile {
+		padding: 0 0.5rem;
+	}
 
 	h3 {
-		@include sub-header;
 		margin-bottom: 1.25rem;
+		@include sub-header;
 	}
 
 	.article-description {
@@ -196,11 +268,10 @@ onMounted(() => {
 		margin-bottom: 1em;
 
 		.article {
-			width: 37.5rem;
-			height: 22.3125rem;
+			width: 30%;
 			border: 0.125rem solid $text-color;
 			flex-shrink: 0;
-			border-radius: 0.9375rem;
+			border-radius: 1.2rem;
 			position: relative;
 			background: #8b8984;
 
@@ -208,26 +279,51 @@ onMounted(() => {
 				width: 100%;
 			}
 
-			.btn {
-				@include flex;
-				gap: 1em;
-				position: absolute;
-				bottom: 0;
-				right: 0;
-				padding: 1em 2em;
-				background: $secondary-color-1;
-				border-bottom-right-radius: 0.9375rem;
-				font-size: 1.2rem;
-				color: $text-color;
-				transition: all 0.3s;
+			.image-container {
+				width: 100%;
+				height: 300px;
+				border-top-right-radius: 1rem;
+				border-top-left-radius: 1rem;
 
-				&:hover {
-					border-top: 0.125rem solid $text-color;
-					border-left: 0.125rem solid $text-color;
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					border-top-right-radius: 1rem;
+					border-top-left-radius: 1rem;
+				}
+			}
+
+			.article_text {
+				height: 100px;
+				align-items: center;
+				padding: 0 1em;
+				gap: 2em;
+				@include flex;
+
+				h3 {
+					font-size: 16px;
+					font-family: $font-accent;
+					color: #000;
+
+					@include mobile {
+						font-size: 12px;
+						text-align: start;
+					}
 				}
 
-				@include mobile {
-					padding: 0.5em 1em;
+				.btn {
+					gap: 1em;
+					padding: 1em 2em;
+					background: $secondary-color-1;
+					font-size: 1.2rem;
+					color: $text-color;
+					transition: all 0.3s;
+					@include flex;
+
+					@include mobile {
+						padding: 0.5em 1em;
+					}
 				}
 			}
 		}
@@ -239,6 +335,10 @@ onMounted(() => {
 		align-items: center;
 		gap: 2rem;
 		margin-top: 2rem;
+
+		@include mobile {
+			gap: 1rem;
+		}
 
 		.pagination-btn {
 			padding: 1rem 2rem;
@@ -254,6 +354,11 @@ onMounted(() => {
 			&:disabled {
 				opacity: 0.5;
 				cursor: not-allowed;
+			}
+
+			@include mobile {
+				padding: 0.5rem 1rem;
+				font-size: 14px;
 			}
 		}
 	}

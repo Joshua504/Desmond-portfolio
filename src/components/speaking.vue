@@ -32,20 +32,22 @@
 						<img src="../assets/Images/arrowUpRight.svg" alt="" />
 					</button>
 				</section>
-				<!-- <div class="control-btn">
-					<div @click="prevSlide" class="btns">
-						<img src="../assets/Images/arrowLeft(1).svg" alt="" />
-					</div>
-					<div @click="nextSlide" class="btns">
-						<img src="../assets/Images/arrowLeft.svg" alt="" />
-					</div>
-				</div> -->
 			</div>
 			<div class="carousel">
 				<div class="carousel-container">
 					<div class="carousel-slide">
-						<img :src="currentImage" alt="" ref="slideImage" />
-						<h3 ref="slideTitle">{{ currentTitle }}</h3>
+						<div class="image-container">
+							<img :src="currentImage" alt="" ref="slideImage" />
+						</div>
+						<div class="slide-details">
+							<div>
+								<h3 ref="slideTitle">{{ currentTitle }}</h3>
+							</div>
+							<ul>
+								<a href="">slides</a>
+								<a href="">watch</a>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -58,11 +60,9 @@
 <script setup>
 import gsap from "gsap";
 import { onMounted, ref } from "vue";
-import image1 from "../assets/Images/Frame 74.svg";
-import image2 from "../assets/Images/abstract-blue-liquid-shapes-with-circles-elements-pattern-on-dark-blue-background-vector.jpg";
-import image3 from "../assets/Images/istockphoto-1451000936-612x612.jpg";
-import image4 from "../assets/Images/images.jpeg";
-// import carousel from "../components/carousel.vue";
+import chaos from "../assets/Images/Chaoss 51.jpg";
+import cityJs from "../assets/Images/City JS 16.jpg";
+import localHost from "../assets/Images/20241226_213954.jpg";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -71,7 +71,38 @@ const description = ref(null);
 const speaksCarousel = ref(null);
 const speaksText = ref(null);
 
+const slideImages = ref([chaos, cityJs, localHost]);
+const slides = ref([
+	{
+		id: 1,
+		image: slideImages.value[0],
+		title: "Chaos africa submit",
+	},
+	{
+		id: 2,
+		image: slideImages.value[1],
+		title: "city js",
+	},
+	// {
+	// 	id: 3,
+	// 	image: slideImages.value[2],
+	// 	title: "local host",
+	// },
+]);
+
+const currentImage = ref(slides.value[0].image);
+const currentTitle = ref(slides.value[0].title);
+const currentIndex = ref(0);
+
+const rotateSlides = () => {
+	currentIndex.value = (currentIndex.value + 1) % slides.value.length;
+	currentImage.value = slideImages.value[currentIndex.value];
+	currentTitle.value = slides.value[currentIndex.value].title;
+};
+
 onMounted(() => {
+	setInterval(rotateSlides, 20000);
+
 	let mediaQuery = gsap.matchMedia();
 
 	mediaQuery.add("(min-width: 768px)", () => {
@@ -128,50 +159,6 @@ onMounted(() => {
 
 	setInterval(rotateSlides, 5000);
 });
-
-const carouselContainer = ref(null);
-const slides = ref([
-	{
-		id: 1,
-		image: image1,
-		title: "Chaos africa submit",
-	},
-	{
-		id: 2,
-		image: image1,
-		title: "axios",
-	},
-	{
-		id: 3,
-		image: image1,
-		title: "google fest",
-	},
-	{
-		id: 4,
-		image: image1,
-		title: "web3",
-	},
-]);
-
-const currentIndex = ref(0);
-const slideImage = ref(null);
-const slideTitle = ref(null);
-
-const rotateSlides = () => {
-	gsap.to(".carousel-slide", {
-		opacity: 0,
-		duration: 0.5,
-		onComplete: () => {
-			currentIndex.value = (currentIndex.value + 1) % slides.value.length;
-
-			gsap.to(".carousel-slide", {
-				opacity: 1,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
-		},
-	});
-};
 </script>
 
 <style lang="scss" scoped>
@@ -180,11 +167,16 @@ const rotateSlides = () => {
 
 .speakscontainer {
 	margin: 5rem 0;
+	padding: 0 1.5rem;
+
+	@include mobile {
+		padding: 0 0.5rem;
+	}
 
 	h3 {
-		@include sub-header;
 		text-align: center;
 		margin-bottom: 32px;
+		@include sub-header;
 	}
 
 	.flex-container {
@@ -259,32 +251,62 @@ const rotateSlides = () => {
 			background: #fff;
 			width: 100%;
 			padding: 16px 10px 18px;
-			// padding: 2rem;
 		}
 
 		.carousel-container {
-			width: 100%;
 			display: flex;
 			transition: transform 0.5s ease;
-			scroll-snap-type: x mandatory;
 		}
 
 		.carousel-slide {
-			min-width: 100%;
+			max-width: 100%;
+			max-height: 20%;
 			flex-shrink: 0;
-			scroll-snap-align: center;
-			// opacity: 1;
 			transition: opacity 0.5s ease;
-		}
 
-		.carousel-slide img {
-			width: 100%;
-			height: auto;
-			object-fit: contain;
-		}
-		.carousel-slide h3 {
-			font-size: 20px;
-			margin-top: 1.5rem;
+			.image-container {
+				width: 100%;
+				height: 90%;
+				img {
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			.slide-details {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				h3 {
+					font-size: 25px;
+					margin-top: 1.5rem;
+
+					@include mobile {
+						font-size: 16px;
+					}
+				}
+
+				ul {
+					display: flex;
+					gap: 1rem;
+
+					a {
+						font-family: $font-accent;
+						font-size: 1.2rem;
+						color: var(--text2-color);
+						text-transform: capitalize;
+						padding: 0.5em 1em;
+						border-radius: 50px;
+						background: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+
+						@include mobile {
+							font-size: 12px;
+							padding: 0.5em 0.8em;
+						}
+					}
+				}
+			}
 		}
 	}
 }

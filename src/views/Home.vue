@@ -25,9 +25,14 @@
 				alt=""
 			/>
 			<img class="man-u" ref="manu" src="../assets/Images/manu.svg" alt="" />
-			<img src="" alt="" />
-			<img src="" alt="" />
-			<img src="" alt="" />
+			<img src="../assets/Images/christ.png" ref="christ" alt="" />
+			<img class="tesla" src="../assets/Images/tesla.png" ref="tesla" alt="" />
+			<img
+				class="pad"
+				ref="pad"
+				src="../assets/Images/controller2.png"
+				alt=""
+			/>
 		</section>
 		<!-- /* ------------------------------ about-section ----------------------------- */ -->
 		<aboutComponent />
@@ -49,11 +54,6 @@ import { onMounted, ref } from "vue";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const heroText = ref(null);
-const heroSmallText = ref(null);
-const luffyi = ref(null);
-const manu = ref(null);
-
 const videos = ref([luffy, luffy1, luffy2]);
 
 const currentVideo = ref(videos.value[0]);
@@ -64,18 +64,38 @@ const rotateVideos = () => {
 	currentVideo.value = videos.value[currentIndex];
 };
 
+const heroText = ref(null);
+const heroSmallText = ref(null);
+
+const elementsText = {
+	heroText,
+	heroSmallText,
+};
+
+const luffyi = ref(null);
+const manu = ref(null);
+const christ = ref(null);
+const tesla = ref(null);
+const pad = ref(null);
+
+const elements = {
+	luffyi,
+	manu,
+	christ,
+	tesla,
+	pad,
+};
+
 onMounted(() => {
 	currentVideo.value = videos.value[0];
 	setInterval(rotateVideos, 30000);
 
-	gsap.set(heroText.value, {
-		x: "-100%",
-		opacity: 0,
-	});
-
-	gsap.set(heroSmallText.value, {
-		x: "100%",
-		opacity: 0,
+	const initalPosition1 = {
+		heroText: { x: "-100%", opacity: 0 },
+		heroSmallText: { x: "100%", opacity: 0 },
+	};
+	Object.entries(initalPosition1).forEach(([key, position]) => {
+		gsap.set(elementsText[key].value, position);
 	});
 
 	gsap.to(heroText.value, {
@@ -98,89 +118,191 @@ onMounted(() => {
 	let mediaQuery = gsap.matchMedia();
 
 	mediaQuery.add("(min-width: 768px)", () => {
-		gsap.set(luffyi.value, {
-			x: "-60%",
+		const initialPositions = {
+			luffyi: { x: "-60%" },
+			manu: { x: "120%", y: "50%" },
+			christ: { x: "120%", y: "-150%" },
+			tesla: { x: "100%", y: "-100%" },
+			pad: { x: "-800%", y: "-850%" },
+		};
+
+		Object.entries(initialPositions).forEach(([key, position]) => {
+			gsap.set(elements[key].value, position);
 		});
 
-		gsap.set(manu.value, {
-			x: "120%",
-			y: "50%",
-		});
-
-		gsap.to(luffyi.value, {
-			scrollTrigger: {
-				trigger: luffyi.value,
-				start: "top 60%",
-				end: "top 30%",
-				scrub: 1,
-				toggleActions: "play none none reverse",
+		const animations = {
+			luffyi: {
+				scrollTrigger: {
+					start: "top 60%",
+					end: "top 30%",
+				},
+				animation: {
+					x: "-30%",
+					y: "20%",
+					duration: 1,
+					delay: 1,
+				},
 			},
-			opacity: 1,
-			x: "-30%",
-			y: "20%",
-			duration: 1,
-			delay: 1,
-			ease: "power1.out",
-		});
-
-		gsap.to(manu.value, {
-			scrollTrigger: {
-				trigger: manu.value,
-				start: "top 60%",
-				end: "top 30%",
-				scrub: 1,
-				toggleActions: "play none none reverse",
+			manu: {
+				scrollTrigger: {
+					start: "top 60%",
+					end: "top 30%",
+				},
+				animation: {
+					x: "80%",
+					y: "-50%",
+					duration: 2,
+					delay: 1.5,
+				},
 			},
-			opacity: 1,
-			x: "80%",
-			y: "60%",
-			duration: 2,
-			delay: 1.5,
-			ease: "power1.out",
+			tesla: {
+				scrollTrigger: {
+					start: "top 70%",
+					end: "top 30%",
+				},
+				animation: {
+					x: "60%",
+					y: "-60%",
+					duration: 2,
+					delay: 1.5,
+				},
+			},
+			christ: {
+				scrollTrigger: {
+					start: "top 70%",
+					end: "top 20%",
+				},
+				animation: {
+					scale: 2.2,
+					duration: 2,
+					ease: "power2.out",
+				},
+			},
+			pad: {
+				scrollTrigger: {
+					start: "top 60%",
+					end: "top 20%",
+				},
+				animation: {
+					x: "-600%",
+					y: "-650%",
+					duration: 2,
+					delay: 1,
+					ease: "power2.out",
+				},
+			},
+		};
+
+		// Apply animations
+		Object.entries(animations).forEach(([key, config]) => {
+			gsap.to(elements[key].value, {
+				scrollTrigger: {
+					trigger: elements[key].value,
+					scrub: 1,
+					toggleActions: "play none none reverse",
+					...config.scrollTrigger,
+				},
+				opacity: 1,
+				ease: "power1.out",
+				...config.animation,
+			});
 		});
 	});
 
 	mediaQuery.add("(max-width: 767px)", () => {
-		gsap.set(luffyi.value, {
-			x: "-50%",
-			y: "60%",
+		const initialPositions = {
+			luffyi: { x: "-50%", y: "60%" },
+			manu: { x: "100%", y: "40%" },
+			christ: { x: "-11%", y: "-100%", scale: 0.7 },
+			tesla: { x: "100%", y: "-270%" },
+			pad: { x: "-1300%", y: "-4000%" },
+		};
+
+		Object.entries(initialPositions).forEach(([key, position]) => {
+			gsap.set(elements[key].value, position);
 		});
 
-		gsap.set(manu.value, {
-			x: "100%",
-			y: "40%",
-		});
-
-		gsap.to(luffyi.value, {
-			scrollTrigger: {
-				trigger: luffyi.value,
-				start: "top 50%",
-				end: "top 30%",
-				scrub: 1,
-				toggleActions: "play none none reverse",
+		const animations = {
+			luffyi: {
+				scrollTrigger: {
+					start: "top 50%",
+					end: "top 30%",
+				},
+				animation: {
+					opacity: 1,
+					x: "-30%",
+					y: "60%",
+					duration: 1,
+					delay: 1,
+					ease: "power1.out",
+				},
 			},
-			opacity: 1,
-			x: "-30%",
-			y: "60%",
-			duration: 1,
-			delay: 1,
-			ease: "power1.out",
-		});
 
-		gsap.to(manu.value, {
-			scrollTrigger: {
-				trigger: manu.value,
-				start: "top 60%",
-				end: "top 30%",
-				scrub: 1,
-				toggleActions: "play none none reverse",
+			manu: {
+				scrollTrigger: {
+					start: "top 60%",
+					end: "top 30%",
+				},
+				animation: {
+					x: "50%",
+					y: "30%",
+					duration: 2,
+					delay: 1.5,
+				},
 			},
-			opacity: 1,
-			x: "50%",
-			y: "30%",
-			duration: 2,
-			delay: 1.5,
-			ease: "power1.out",
+
+				christ: {
+				scrollTrigger: {
+					start: "top 70%",
+					end: "top 20%",
+				},
+				animation: {
+					scale: 1,
+					duration: 2,
+					ease: "power2.out",
+				},
+			},
+
+			tesla: {
+				scrollTrigger: {
+					start: "top 70%",
+					end: "top 30%",
+				},
+				animation: {
+					x: "-10%",
+					y: "-220%",
+					duration: 2,
+					delay: 1.5,
+				},
+			},
+
+				pad: {
+				scrollTrigger: {
+					start: "top 60%",
+					end: "top 20%",
+				},
+				animation: {
+					x: "-600%",
+					// y: "-3000%",
+					duration: 2,
+					delay: 1,
+					ease: "power2.out",
+				},
+			},
+		};
+
+		Object.entries(animations).forEach(([key, config]) => {
+			gsap.to(elements[key].value, {
+				scrollTrigger: {
+					trigger: elements[key].value,
+					scrub: 1,
+					toggleActions: "play none none reverse",
+					...config.scrollTrigger,
+				},
+				opacity: 1,
+				ease: "power1.out",
+				...config.animation,
+			});
 		});
 	});
 });
@@ -192,6 +314,10 @@ onMounted(() => {
 
 main {
 	overflow: hidden;
+
+	@include mobile {
+		padding: 0 0.5rem;
+	}
 
 	.hero {
 		margin-top: 2.5rem;
@@ -231,8 +357,9 @@ main {
 			margin-top: 1.25rem;
 
 			@include mobile {
-				left: 0;
-				top: 90%;
+				left: 0%;
+				top: 0%;
+				position: relative;
 			}
 
 			.hero_smalltext {
@@ -272,6 +399,14 @@ main {
 		position: relative;
 		height: 100vh;
 		width: 100%;
+		background-image: url("../assets/Images/rio.jpg");
+		background-size: cover;
+		background-position: center;
+
+		@include mobile {
+			width: 100%;
+			padding: 0;
+		}
 
 		.luffyi {
 			@include mobile {
@@ -283,6 +418,17 @@ main {
 			@include mobile {
 				width: 80%;
 			}
+		}
+
+		.tesla {
+			width: 50%;
+			@include mobile {
+				width: 80%;
+			}
+		}
+
+		.pad {
+			width: 10%;
 		}
 	}
 }

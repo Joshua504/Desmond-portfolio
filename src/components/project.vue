@@ -136,8 +136,8 @@ onMounted(() => {
 @use "../style/mixins" as *;
 
 main {
-	padding: 5rem 0;
-
+	padding: 5rem 1.5rem;
+	
 	@include mobile{
 		padding: 3rem 0;
 	}

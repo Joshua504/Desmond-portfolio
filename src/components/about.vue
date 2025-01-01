@@ -43,7 +43,7 @@
 			<div class="imgslider">
 				<section class="slider">
 					<div class="slides">
-						<img src="../assets/Images/Frame 53.svg" alt="" />
+						<img src="../assets/Images/avatar.jpg" alt="" />
 					</div>
 				</section>
 			</div>
@@ -62,25 +62,30 @@ gsap.registerPlugin(ScrollTrigger);
 const aboutText = ref(null);
 const aboutImg = ref(null);
 
+const elements = {
+	aboutText,
+	aboutImg,
+};
+
 onMounted(() => {
 	let mediaQuery = gsap.matchMedia();
 
 	mediaQuery.add("(min-width: 768px)", () => {
-		gsap.set(aboutText.value, {
-			opacity: 0,
-			x: -100,
-		});
-		gsap.set(aboutImg.value, {
-			opacity: 0,
-			x: 100,
+		const initialPositions = {
+			aboutText: { x: "-100%", opacity: 0 },
+			aboutImg: { x: "100%", opacity: 0 },
+		};
+
+		Object.entries(initialPositions).forEach(([key, position]) => {
+			gsap.set(elements[key].value, position);
 		});
 
 		gsap.to(aboutText.value, {
 			scrollTrigger: {
 				trigger: aboutText.value,
 				start: "top 60%",
-				scrub: 1,
-				toggleActions: "play none none reverse",
+				// scrub: 1,
+				toggleActions: "play none none none",
 			},
 			opacity: 1,
 			x: 0,
@@ -92,8 +97,8 @@ onMounted(() => {
 			scrollTrigger: {
 				trigger: aboutImg.value,
 				start: "top 60%",
-				scrub: 1,
-				toggleActions: "play none none reverse",
+				// scrub: 1,
+				toggleActions: "play none none none",
 			},
 			opacity: 1,
 			x: 0,
@@ -105,7 +110,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "../style/variables" as *;
 @use "../style/mixins" as *;
 
@@ -113,18 +118,22 @@ onMounted(() => {
 	@include flex;
 	justify-content: space-between;
 	margin: 5rem 0;
+	padding: 0 1.5rem;
+	overflow: hidden;
 
 	@include mobile {
 		flex-direction: column;
 		gap: 2rem;
+		padding: 0 0.5rem;
 	}
 
 	.abt-text {
 		width: 100%;
 		max-width: 1000px;
+
 		h3 {
-			@include sub-header;
 			margin-bottom: 0.625rem;
+			@include sub-header;
 		}
 
 		.smalltextcon {

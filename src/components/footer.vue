@@ -19,7 +19,7 @@
 				<div class="emailsection">
 					<img src="../assets/Images/arrowRight.svg" alt="" />
 					<div>
-						<p><span>anonx</span>@<span>gmail.com</span></p>
+						<p><span>work</span>@<span>anonx.me</span></p>
 					</div>
 				</div>
 			</div>
@@ -35,7 +35,7 @@
 				</ul>
 			</div>
 			<div class="copyright">
-				<p>© 2024 Cyd Stumpel</p>
+				<p>© 2024 Copyright</p>
 				<p>designed & created by <span>chukwuebuka joshua</span></p>
 			</div>
 		</section>
@@ -100,7 +100,7 @@ footer {
 		div {
 			h1 {
 				font-size: 8rem;
-				text-transform: capitalize;
+				// text-transform: capitalize;
 
 				@include mobile {
 					font-size: 4rem;
@@ -124,7 +124,7 @@ footer {
 		div {
 			h3 {
 				font-size: 4.25rem;
-				text-transform: capitalize;
+				// text-transform: capitalize;
 
 				@include mobile {
 					font-size: 3rem;
@@ -132,7 +132,7 @@ footer {
 			}
 			p {
 				font-size: 2rem;
-				text-transform: capitalize;
+				// text-transform: capitalize;
 
 				@include mobile {
 					font-size: 1.5rem;
@@ -205,7 +205,7 @@ footer {
 
 				a {
 					font-size: 32px;
-					text-transform: capitalize;
+					// text-transform: capitalize;
 					text-decoration: underline;
 					color: var(--text3-color);
 
@@ -228,7 +228,7 @@ footer {
 
 			p {
 				font-size: 1.25rem;
-				text-transform: capitalize;
+				// text-transform: capitalize;
 
 				span {
 					text-decoration: underline;
